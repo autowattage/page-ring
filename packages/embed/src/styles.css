@@ -3,6 +3,7 @@
 @theme {
   --color-border: #441152;
   --color-link: #00949f;
+  --color-grass: #b0ce15;
 
   --font-sans:
     "Archivo Variable", ui-sans-serif, system-ui, sans-serif,
