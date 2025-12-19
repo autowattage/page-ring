@@ -1,6 +1,5 @@
 import type { APIContext } from "astro";
-import { getCollection } from "astro:content";
-import { toMember } from "~/lib/member";
+import { getAdjacentMembers, getAllMembers } from "~/lib/webring";
 
 const getHostname = (url: string) => {
   try {
@@ -17,25 +16,23 @@ export async function GET({ url, request }: APIContext) {
     return new Response("Origin header missing or invalid", { status: 400 });
   }
 
-  const members = await getCollection("members").then((members) =>
-    members.map((member) => toMember(member, { url })),
-  );
-  let entryIdx = members.findIndex(
+  const members = await getAllMembers({ url });
+  let current = members.find(
     (member) => getHostname(member.url) === originHostname,
   );
-  if (entryIdx === -1) {
+  if (!current) {
     if (import.meta.env.DEV && originHostname === "localhost") {
-      entryIdx = 0;
+      current = members[0];
     } else {
       return new Response("Member not found", { status: 404 });
     }
   }
 
-  const current = members[entryIdx];
-  const prev = members[entryIdx - 1] || members[members.length - 1];
-  const next = members[entryIdx + 1] || members[0];
+  const { prev, next } = getAdjacentMembers(members, current.id);
+  if (!prev || !next) {
+    return new Response("Member not found", { status: 404 });
+  }
 
-  console.log(members);
   return Response.json({
     current,
     prev,

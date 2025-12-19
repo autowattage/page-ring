@@ -1,20 +1,19 @@
-import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
-import { toMember } from "~/lib/member";
+import {
+  getAdjacentMembers,
+  getAllMembers,
+  getCurrentMember,
+} from "~/lib/webring";
 
 export async function GET({ params, url }: APIContext) {
-  const members = await getCollection("members").then((members) =>
-    members.map((member) => toMember(member, { url })),
-  );
+  const members = await getAllMembers({ url });
 
-  const entryIdx = members.findIndex((member) => member.id === params.id);
-  if (entryIdx === -1) {
+  const current = getCurrentMember(members, params.id!);
+  const { prev, next } = getAdjacentMembers(members, params.id!);
+
+  if (!current || !prev || !next) {
     return new Response("Member not found", { status: 404 });
   }
-
-  const current = members[entryIdx];
-  const prev = members[entryIdx - 1] || members[members.length - 1];
-  const next = members[entryIdx + 1] || members[0];
 
   return Response.json({
     current,

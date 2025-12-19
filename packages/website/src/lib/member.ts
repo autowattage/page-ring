@@ -8,9 +8,9 @@ export interface Member {
   buttonUrl: string;
 }
 
-type Context = { url: URL };
+export type ToMemberContext = { url: URL };
 
-export const buttonUrl = (url: string, context: Context) => {
+export const buttonUrl = (url: string, context: ToMemberContext) => {
   if (url.startsWith("/")) {
     return joinURL(context.url.origin, url);
   }
@@ -19,7 +19,7 @@ export const buttonUrl = (url: string, context: Context) => {
 
 export function toMember(
   member: CollectionEntry<"members">,
-  context: Context,
+  context: ToMemberContext,
 ): Member {
   return {
     id: member.id,

@@ -32,14 +32,17 @@ export const prerender = true;
         your own personal site.
       </p>
     </div>
-    <button
-      class="group border-border text-border relative isolate mt-4 h-10 border-2 bg-white px-3 font-semibold shadow-xs transition hover:text-white"
-    >
-      <span
-        class="bg-border absolute inset-0 -z-10 block origin-right transition not-group-hover:scale-x-0 group-hover:origin-left"
-      ></span>
-      enter the webring →
-    </button>
+    <a href="/to/random" class="group inline-block">
+      <div
+        class="border-border text-border relative isolate mt-4 flex h-10 w-max items-center border-2 bg-white px-3 font-semibold shadow-xs transition group-hover:text-white group-active:scale-95 group-active:border-fuchsia-900"
+      >
+        <div
+          class="bg-border absolute inset-0 -z-10 block origin-right transition not-group-hover:scale-x-0 group-hover:origin-left group-active:bg-fuchsia-900"
+        >
+        </div>
+        enter the webring →
+      </div>
+    </a>
 
     <section class="mt-10 border-t-2 border-dashed border-neutral-200 pt-6">
       <h2 class="text-xl font-bold">join</h2>
@@ -109,17 +112,45 @@ export const prerender = true;
 
     <section class="mt-10 border-t-2 border-dashed border-neutral-200 pt-6">
       <h2 class="text-xl font-bold">api</h2>
-      <div class="my-4 border-l-2 border-orange-500 bg-orange-100 p-2 px-3">
+      <div class="my-4 border-l-2 border-orange-500 bg-orange-100 p-3">
         <p class="text-orange-800">
-          if you're using the api, <strong class="font-semibold"
+          if you're using the api instead, <strong class="font-semibold"
             >still include the {"<script>"} tag on your page!</strong
           >
           it shows the overlay that allows you to navigate between websites.
         </p>
+        <pre
+          class="mt-2 border-2 border-orange-300 bg-white p-2 px-3 font-mono text-sm"><code>{
+          `<script src="https://example.com/embed.js"></script>`}</code></pre>
       </div>
+      <p class="mt-2 text-neutral-600">
+        <strong class="font-semibold text-black">GET /to/random:</strong> redirect
+        to a random member of the webring
+      </p>
       <pre
         class="my-4 border-2 border-neutral-300 bg-white p-2 px-3 font-mono text-sm text-neutral-800"><code>{
-          `<script src="https://example.com/embed.js"></script>`}</code></pre>
+          `302 Found (redirect)`}</code></pre>
+      <p class="mt-2 text-neutral-600">
+        <strong class="font-semibold text-black">GET /to/[id]:</strong> redirect to
+        a specific member in the webring by id
+      </p>
+      <pre
+        class="my-4 border-2 border-neutral-300 bg-white p-2 px-3 font-mono text-sm text-neutral-800"><code>{
+          `302 Found (redirect)`}</code></pre>
+      <p class="mt-2 text-neutral-600">
+        <strong class="font-semibold text-black">GET /to/[id]/next:</strong> redirect
+        to the next member in the webring
+      </p>
+      <pre
+        class="my-4 border-2 border-neutral-300 bg-white p-2 px-3 font-mono text-sm text-neutral-800"><code>{
+          `302 Found (redirect)`}</code></pre>
+      <p class="mt-2 text-neutral-600">
+        <strong class="font-semibold text-black">GET /to/[id]/prev:</strong> redirect
+        to the previous member in the webring
+      </p>
+      <pre
+        class="my-4 border-2 border-neutral-300 bg-white p-2 px-3 font-mono text-sm text-neutral-800"><code>{
+          `302 Found (redirect)`}</code></pre>
       <p class="mt-2 text-neutral-600">
         <strong class="font-semibold text-black">GET /api/v1/members:</strong> get
         all members of the webring
