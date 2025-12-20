@@ -13,7 +13,7 @@ export default defineConfig({
       entry: resolve(__dirname, "src/embed.ts"),
       name: "pagering",
       // the proper extensions will be added
-      fileName: "script",
+      fileName: () => "script.js",
       formats: ["umd"],
     },
   },
